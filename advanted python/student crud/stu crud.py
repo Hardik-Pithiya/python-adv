@@ -131,7 +131,27 @@ def show():
         mydb.close()
 
 def search():
-    pass
+    studid = e1.get()
+
+    mydb = mysql.connector.connect(host="localhost", user="root", password="", database='student')
+    mycur = mydb.cursor()
+
+    try:
+        sql = "select * from stdinfo where id = %s"
+        val = (studid)
+        mycur.execute(sql, val)
+        mydb.commit()
+        lastid = mycur.lastrowid
+        messagebox.showinfo("information", "Record find successful...")
+        e1.delete(0, END)
+        e2.delete(0, END)
+        e3.delete(0, END)
+        e4.delete(0, END)
+        e1.focus_set()
+    except EXCEPTION as e:
+        print(e)
+        mydb.rollback()
+        mydb.close()
 
 
 b1 = Button(win, text="Add", command=Add, height=3, width=13)
